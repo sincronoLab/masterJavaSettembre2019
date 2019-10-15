@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <script type="text/javascript">
+
+
+	
+function trovaProvince(){
+		
+		//recupero la select con id re
+		var reg_sel=document.getElementById("re");
+
+		//prendo il valore selezionato
+    	var reg_val=reg_sel.options[reg_sel.selectedIndex].value;
+		
+		
+		var xhttp=new XMLHttpRequest();//Oggetto AJAX
+		
+
+		//VERIFICO CHE LE RISPOSTE DEL SERVER SIANO POSITIVE
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		    	
+				
+				//INNESTO L'HTML RESTITUITO DALLA SERVLET (THIS.RESPONSE.TEXT)
+				//NELL'ELEMENTO CON ID PROV
+				document.getElementById("prov").innerHTML =this.responseText;
+		    	
+		    }
+		  };
+
+		  //METODO DI AJAX PER IMPOSTARE IL METODO DI INVIO(GET/POST),
+		  //INDICARE LA SERVLET E CONCATENARE EVENTUALI PARAMETRI
+		  xhttp.open("POST", "../FiltroZone?regione="+reg_val, true);
+		  
+
+		  //SPEDISCE ALLA SERVLET LA CHIAMATA AJAX
+		  xhttp.send();
+		
+		
+		
+	}
+
+</script>
+  <title>Document</title>
+ </head>
+ <body>
+
+ <h1>Come usare Ajax</h1>
+   <table>
+  <tr>
+	<td>
+		<select name="regione" id="re" onchange="trovaProvince()">
+		
+			<option value="lazio">lazio</option>
+			<option value="toscana">toscana</option>
+		</select>
+	</td>
+		
+	
+	<td>
+		<select name="provincia" id="prov">
+		
+<!-- 			<option value="" id="p"></option> -->
+			
+		</select>
+		
+	</td>
+	<td>
+	
+	
+	</td>
+  </tr>
+  </table>
+
+ </body>
+
+ <!--PORZIONE DI UNA SERVLET CHE UTILIZZA L'AJAX USATO NELL'ESEMPIO
+ *******************************************************************************
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		PrintWriter out=response.getWriter();
+	
+		String reg=request.getParameter("regione");
+		
+		String prov=request.getParameter("provincia");
+		
+		String[] provLazio= {"roma","rieti","viterbo","latina","frosinone"};
+		String[] provToscana= {"firenze","grosseto","lucca","pisa","pistoia",""};
+		
+		if(reg.equals("toscana")) {
+			
+			for(int i=0;i<provToscana.length;i++) {
+				
+				//System.out.println(provToscana[i]);
+		out.println("<option value="+provToscana[i]+" id=p>"+provToscana[i]+"</option>");
+			}
+		
+		}
+**************************************************************************
+ 
+ 
+ 
+ 
+ -->
+</html>
