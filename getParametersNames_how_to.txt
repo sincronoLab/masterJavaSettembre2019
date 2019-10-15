@@ -1,0 +1,15 @@
+
+//COME USARE IL METODO getParameterNames()
+
+Enumeration<String> e=request.getParameterNames();
+		
+		
+		
+while(e.hasMoreElements()) {
+	
+	Object objOri=e.nextElement();
+	String param=(String)objOri;
+	String value=request.getParameter(param);
+	System.out.println("Nome parametro "+param+" con valore "+value);
+	
+}
